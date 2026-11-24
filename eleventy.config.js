@@ -1,11 +1,9 @@
 import { IdAttributePlugin, InputPathToUrlTransformPlugin, HtmlBasePlugin } from "@11ty/eleventy";
-import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 
 import pluginFilters from "./_config/filters.js";
-import metadata from "./_data/metadata.js";
 
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 export default async function(eleventyConfig) {
@@ -25,8 +23,7 @@ export default async function(eleventyConfig) {
 	eleventyConfig
 		.addPassthroughCopy({
 			"./public/": "/"
-		})
-		.addPassthroughCopy("./content/feed/pretty-atom-feed.js");
+		});
 
 	// Run Eleventy when these files change:
 	// https://www.11ty.dev/docs/watch-serve/#add-your-own-watch-targets
@@ -60,29 +57,6 @@ export default async function(eleventyConfig) {
 	eleventyConfig.addPlugin(pluginNavigation);
 	eleventyConfig.addPlugin(HtmlBasePlugin);
 	eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
-
-	eleventyConfig.addPlugin(feedPlugin, {
-		type: "atom", // or "rss", "json"
-		outputPath: "/feed/feed.xml",
-		script: "pretty-atom-feed.js",
-		templateData: {
-			eleventyNavigation: {
-				key: "Feed",
-				order: 4
-			}
-		},
-		collection: {
-			name: "posts",
-			limit: 10,
-		},
-		metadata: {
-			language: metadata.language,
-			title: metadata.title,
-			subtitle: metadata.description,
-			base: metadata.url,
-			author: metadata.author,
-		}
-	});
 
 	// Image optimization: https://www.11ty.dev/docs/plugins/image/#eleventy-transform
 	eleventyConfig.addPlugin(eleventyImageTransformPlugin, {

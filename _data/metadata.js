@@ -1,5 +1,5 @@
 export default {
-	title: "boe",
+	title: "Grass grows, birds fly, sun shines..",
 	url: "https://bosqk.github.io",
 	language: "en",
 	description: "Writing down my thoughts",
